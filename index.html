@@ -138,6 +138,13 @@ textarea.field{min-height:130px;font-family:ui-monospace,Menlo,monospace;font-si
       <div id="qr"></div>
     </div>
     <div class="panel">
+      <h2>Alerte Teams</h2>
+      <p class="hint">Colle l'adresse du webhook du groupe Teams. À chaque arrivée, l'app envoie un message au groupe avec le nom de l'invité et son statut, sans le vendeur. L'adresse est ajoutée au lien partagé : copie ensuite le nouveau lien et renvoie-le.</p>
+      <input class="field" id="w-url" placeholder="https://…" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <div class="form-row"><button class="btn small" id="w-save" style="flex:0 0 auto">Enregistrer</button><button class="btn ghost small" id="w-test" style="flex:0 0 auto">Envoyer un test</button><button class="btn ghost small" id="w-off" style="flex:0 0 auto" hidden>Retirer</button></div>
+      <span class="hint" id="w-msg"></span>
+    </div>
+    <div class="panel">
       <h2>Importer la liste</h2>
       <p class="hint">Une ligne par invité : <b>Prénom Nom ; Vendeur ; Statut</b>. Statut : Client, Partenaire, Ami ou Famille. Cela remplace la liste actuelle (les arrivées déjà cochées sont gardées).</p>
       <textarea class="field" id="bulk" placeholder="Marie Dupont ; Fernando ; Client&#10;Jean Martin ; Florent ; Famille"></textarea>
@@ -196,7 +203,7 @@ const unb64u=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='='
 const hex=buf=>[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
 async function sha(s){return crypto.subtle.digest('SHA-256',te.encode(s))}
 
-let K=null,aes=null,topic='',STORE='',S=null;
+let K=null,aes=null,topic='',STORE='',S=null,W=null;
 let filter='all',tfilter='',openUndo=null,mySeller=null,audioCtx=null,wakeLock=null;
 const alerted=new Set(),queue=[];let startedAt=Date.now();
 try{mySeller=localStorage.getItem('mySeller')}catch(e){}
@@ -246,6 +253,10 @@ function connect(){
   es.onmessage=async m=>{try{const d=JSON.parse(m.data);if(d.event!=='message')return;applyEvent(await dec(d.message));save();render()}catch(e){}};
 }
 
+/* ---------- alerte Teams (webhook Workflows) ---------- */
+function teams(text){if(!W)return;
+  try{fetch(W,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'message',attachments:[{contentType:'application/vnd.microsoft.card.adaptive',contentUrl:null,content:{$schema:'http://adaptivecards.io/schemas/adaptive-card.json',type:'AdaptiveCard',version:'1.2',body:[{type:'TextBlock',text,wrap:true,weight:'Bolder',size:'Medium'}]}}]})}).catch(()=>{})}catch(e){}}
+
 /* ---------- alertes vendeur ---------- */
 function maybeAlert(gid,ts){
   const g=S.list.guests.find(x=>x.id===gid);if(!g||g.s!==mySeller||alerted.has(gid+ts))return;
@@ -268,6 +279,8 @@ document.addEventListener('visibilitychange',async()=>{if(document.visibilitySta
 async function checkIn(g){const ts=Date.now();applyEvent({k:'in',g:g.id,ts});save();
   toast(`${g.n} est arrivé·e. ${g.s} est prévenu·e`);$('q').value='';render();
   publish({k:'in',g:g.id,ts});
+  const nIn=S.list.guests.filter(arrivedAt).length;
+  teams(`${g.n}${g.t?' ('+g.t+')':''} vient d'arriver à l'accueil (${hhmm(ts)}). ${nIn} / ${S.list.guests.length} arrivés.`);
   try{fetch(NTFY,{method:'POST',body:JSON.stringify({topic:await sellerTopic(g.s),title:'Invité arrivé',message:`${g.n}${g.t?' ('+g.t+')':''} vient d'arriver à l'accueil (${hhmm(ts)})`,priority:4,tags:['bell']})}).catch(()=>{})}catch(e){}}
 async function undo(g){const ts=Date.now();applyEvent({k:'out',g:g.id,ts});save();render();publish({k:'out',g:g.id,ts});toast('Arrivée annulée')}
 async function publishList(guests){const v=Date.now();const per=30;const chunks=[];for(let i=0;i<guests.length;i+=per)chunks.push(guests.slice(i,i+per));
@@ -326,6 +339,12 @@ $('bulk-go').onclick=async()=>{const rows=[];let bad=0;
   for(const line of $('bulk').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean)){const p=line.split(/\s*[;\t]\s*/);if(p.length<2||!p[0]||!p[1]){bad++;continue}rows.push([p[0],p[1],p[2]||''])}
   if(!rows.length){$('bulk-msg').textContent='Aucune ligne valide';return}
   await publishList(mkGuests(rows));const nt=rows.filter(r=>!normType(r[2])).length;$('bulk-msg').textContent=`${rows.length} invité(s) importé(s)`+(bad?`, ${bad} ligne(s) ignorée(s)`:'')+(nt?`, ${nt} sans statut reconnu`:'');$('bulk').value=''};
+$('w-save').onclick=()=>{const u=$('w-url').value.trim();
+  if(!/^https:\/\/\S+$/.test(u)){$('w-msg').textContent='Adresse non valide. Elle doit commencer par https://';return}
+  location.hash='k='+K+'&w='+b64u(te.encode(u));location.reload()};
+$('w-off').onclick=()=>{location.hash='k='+K;location.reload()};
+$('w-test').onclick=()=>{if(!W){$('w-msg').textContent="Enregistre d'abord l'adresse.";return}
+  teams('Test Novoffice 20 ans : si tu lis ce message, l\'alerte Teams marche.');$('w-msg').textContent='Test envoyé. Vérifie le groupe Teams.'};
 $('republish').onclick=async()=>{await publishList(S.list.guests);toast('Liste republiée')};
 $('reset-ask').onclick=()=>$('reset-c').hidden=false;$('reset-no').onclick=()=>$('reset-c').hidden=true;
 $('reset-yes').onclick=async()=>{$('reset-c').hidden=true;const ts=Date.now();applyEvent({k:'reset',ts});save();render();publish({k:'reset',ts});toast('Arrivées remises à zéro')};
@@ -339,6 +358,9 @@ async function boot(){
   const m=location.hash.match(/k=([A-Za-z0-9_-]{16,})/);
   if(!m){$('start').hidden=false;$('create').onclick=()=>{const k=b64u(crypto.getRandomValues(new Uint8Array(16)));location.hash='k='+k;location.reload()};return}
   K=m[1];
+  const wm=location.hash.match(/[#&]w=([A-Za-z0-9_-]+)/);
+  if(wm){try{const u=td.decode(unb64u(wm[1]));if(/^https:\/\/\S+$/.test(u))W=u}catch(e){}}
+  $('w-off').hidden=!W;if(W)$('w-msg').textContent='Alerte Teams active sur ce lien.';
   aes=await crypto.subtle.importKey('raw',await sha('e|'+K),'AES-GCM',false,['encrypt','decrypt']);
   topic='nv'+hex(await sha('t|'+K)).slice(0,24);STORE='nv:'+topic;load();
   $('app').hidden=false;$('share-link').textContent=location.href;
