@@ -254,8 +254,8 @@ function connect(){
 }
 
 /* ---------- alerte Teams (webhook Workflows) ---------- */
-function teams(text){if(!W)return;
-  try{fetch(W,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'message',attachments:[{contentType:'application/vnd.microsoft.card.adaptive',contentUrl:null,content:{$schema:'http://adaptivecards.io/schemas/adaptive-card.json',type:'AdaptiveCard',version:'1.2',body:[{type:'TextBlock',text,wrap:true,weight:'Bolder',size:'Medium'}]}}]})}).catch(()=>{})}catch(e){}}
+function teams(text){if(!W)return Promise.resolve(null);
+  try{return fetch(W,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'message',attachments:[{contentType:'application/vnd.microsoft.card.adaptive',contentUrl:null,content:{$schema:'http://adaptivecards.io/schemas/adaptive-card.json',type:'AdaptiveCard',version:'1.2',body:[{type:'TextBlock',text,wrap:true,weight:'Bolder',size:'Medium'}]}}]})}).then(r=>r.status).catch(()=>0)}catch(e){return Promise.resolve(0)}}
 
 /* ---------- alertes vendeur ---------- */
 function maybeAlert(gid,ts){
@@ -343,8 +343,10 @@ $('w-save').onclick=()=>{const u=$('w-url').value.trim();
   if(!/^https:\/\/\S+$/.test(u)){$('w-msg').textContent='Adresse non valide. Elle doit commencer par https://';return}
   location.hash='k='+K+'&w='+b64u(te.encode(u));location.reload()};
 $('w-off').onclick=()=>{location.hash='k='+K;location.reload()};
-$('w-test').onclick=()=>{if(!W){$('w-msg').textContent="Enregistre d'abord l'adresse.";return}
-  teams('Test Novoffice 20 ans : si tu lis ce message, l\'alerte Teams marche.');$('w-msg').textContent='Test envoyé. Vérifie le groupe Teams.'};
+$('w-test').onclick=async()=>{if(!W){$('w-msg').textContent="Enregistre d'abord l'adresse.";return}
+  $('w-msg').textContent='Envoi…';
+  const s=await teams('Test Novoffice 20 ans : si tu lis ce message, l\'alerte Teams marche.');
+  $('w-msg').textContent=(s>=200&&s<300)?'Test accepté par Teams. Vérifie le groupe.':'Échec de l\'envoi (code '+s+'). Vérifie l\'adresse et la connexion.'};
 $('republish').onclick=async()=>{await publishList(S.list.guests);toast('Liste republiée')};
 $('reset-ask').onclick=()=>$('reset-c').hidden=false;$('reset-no').onclick=()=>$('reset-c').hidden=true;
 $('reset-yes').onclick=async()=>{$('reset-c').hidden=true;const ts=Date.now();applyEvent({k:'reset',ts});save();render();publish({k:'reset',ts});toast('Arrivées remises à zéro')};
