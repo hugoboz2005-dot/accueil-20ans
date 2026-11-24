@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#152444">
+<title>Accueil Invités · Novoffice 20 ans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F3F5F9;--surface:#fff;--ink:#131C33;--muted:#5D6680;--line:#DCE1EC;--accent:#152444;--accent-ink:#fff;--gold:#B0802F;--soft:#E9ECF5;--ok:#0F8A5F;--ok-soft:#DDF3EA;--warn:#B4540A;--danger:#C2302E;--fd:"Poppins",system-ui,sans-serif;--fb:"Instrument Sans","Helvetica Neue",system-ui,sans-serif;--r:14px;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#0E1322;--surface:#172036;--ink:#EBEFF8;--muted:#9AA4BE;--line:#2A3552;--accent:#C99A45;--accent-ink:#0E1322;--gold:#C99A45;--soft:#23305A;--ok:#4FD3A0;--ok-soft:#133A2E;--warn:#F2A15C;--danger:#FF7A73;color-scheme:dark}}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 var(--fb)}
+.wrap{max-width:780px;margin:0 auto;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 80px max(16px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:16px}
+h1,h2{font-family:var(--fd);margin:0;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:1.45rem;font-weight:800}h2{font-size:1.15rem;font-weight:700}
+.eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.counter{font-family:var(--fd);font-weight:700}.counter b{color:var(--ok);font-size:1.7rem}
+nav.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;position:sticky;top:max(6px,env(safe-area-inset-top));z-index:5}
+nav.tabs button{border:0;background:transparent;padding:10px 8px;border-radius:999px;font-weight:600;color:var(--muted)}
+nav.tabs button[aria-selected=true]{background:var(--accent);color:var(--accent-ink)}
+.status{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.85rem;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--soft);font-weight:600;font-size:.82rem}
+.pill i{width:8px;height:8px;border-radius:50%;background:currentColor}
+.pill.on{background:var(--ok-soft);color:var(--ok)}.pill.off{color:var(--warn)}
+.search{width:100%;font-size:1.2rem;padding:14px 16px;border-radius:var(--r);border:2px solid var(--line);background:var(--surface)}
+.search:focus{border-color:var(--gold);outline:none}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:999px;font-size:.9rem;font-weight:500}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.list{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;padding:12px 14px;border:0;border-top:1px solid var(--line);background:var(--surface);width:100%;text-align:left}
+.row:first-child{border-top:0}
+.name{font-weight:600;font-size:1.08rem;overflow-wrap:anywhere}.meta{color:var(--muted);font-size:.88rem}
+.box{width:36px;height:36px;border-radius:10px;border:2px solid var(--line);display:grid;place-items:center}
+.row.arrived .box{background:var(--ok);border-color:var(--ok)}
+.box svg{width:20px;height:20px;stroke:#fff;stroke-width:3;fill:none;opacity:0}.row.arrived .box svg{opacity:1}
+.row.arrived .name{color:var(--muted)}
+.time{font-size:.85rem;color:var(--ok);font-weight:600}
+.undo{border:1px solid var(--danger);color:var(--danger);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:600}
+.empty{padding:26px 16px;text-align:center;color:var(--muted)}
+.btn{border:0;background:var(--accent);color:var(--accent-ink);padding:11px 18px;border-radius:999px;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.small{padding:7px 14px;font-size:.9rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px}
+.notice{background:var(--soft);border-radius:var(--r);padding:14px 16px;font-size:.95rem}
+.hint{color:var(--muted);font-size:.88rem;margin:0}
+.field{padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);min-width:0}
+textarea.field{min-height:130px;font-family:ui-monospace,Menlo,monospace;font-size:.88rem}
+.form-row{display:flex;gap:8px;flex-wrap:wrap}.form-row>*{flex:1 1 140px}
+.seller-pick{display:flex;flex-wrap:wrap;gap:8px}
+.seller-pick button{border:1px solid var(--line);background:var(--surface);padding:12px 16px;border-radius:var(--r);font-weight:600;font-size:1.05rem}
+.card{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:14px 16px;border-top:1px solid var(--line)}
+.card:first-child{border-top:0}.card.fresh{background:var(--ok-soft)}
+.card .name{font-family:var(--fd);font-weight:700;font-size:1.1rem}
+.alert{position:fixed;inset:0;z-index:50;background:var(--ok);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center}
+.alert .big{font-family:var(--fd);font-size:clamp(2rem,9vw,3.6rem);font-weight:800;line-height:1.05;overflow-wrap:anywhere}
+.alert button{background:#fff;color:var(--ok);border:0;padding:14px 26px;border-radius:999px;font-weight:700;font-size:1.05rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:600;z-index:60;max-width:calc(100% - 32px)}
+.mini{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}.mini:first-child{border-top:0}
+.x{border:0;background:transparent;color:var(--muted);width:30px;height:30px;border-radius:50%;font-size:1.1rem}
+.danger{background:none;border:0;color:var(--danger);font-weight:600;padding:0;text-align:left}
+.link{word-break:break-all;font-family:ui-monospace,Menlo,monospace;font-size:.8rem;background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--line)}
+#qr svg,#qr img{width:200px;height:200px;background:#fff;padding:8px;border-radius:10px}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.tag.client{background:#B0802F;color:#fff}.tag.partenaire{background:#8CC4F2;color:#0B2A4A}.tag.ami{background:#A8E0A6;color:#124A1A}.tag.famille{background:#D93838;color:#fff}.tag.autre{background:var(--soft);color:var(--muted)}
+.hero{display:flex;flex-direction:column;gap:14px;align-items:flex-start;padding-top:12vh}
+</style>
+</head>
+<body>
+<div class="wrap" id="app" hidden>
+  <header class="top">
+    <div><div class="eyebrow">Novoffice · 20 ans · 26/11/2026</div><h1>Accueil Invités</h1></div>
+    <div class="counter num" id="counter"><b>0</b> / 0 arrivés</div>
+  </header>
+  <div class="status"><span class="pill off" id="net"><i></i>Connexion…</span><span class="pill" id="outbox" hidden></span></div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-view="accueil" aria-selected="true">Accueil</button>
+    <button role="tab" data-view="vendeur" aria-selected="false">Vendeur</button>
+    <button role="tab" data-view="gestion" aria-selected="false">Gestion</button>
+  </nav>
+
+  <section id="v-accueil" class="view" style="display:flex;flex-direction:column;gap:12px">
+    <input id="q" class="search" type="search" placeholder="Rechercher un prénom ou un nom…" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="filters">
+      <button class="chip" data-f="all" aria-pressed="true">Tous</button>
+      <button class="chip" data-f="wait" aria-pressed="false">Pas encore arrivés</button>
+      <button class="chip" data-f="in" aria-pressed="false">Arrivés</button>
+    </div>
+    <div class="filters" id="tfilters">
+      <button class="chip" data-t="" aria-pressed="true">Tous statuts</button>
+      <button class="chip" data-t="Client" aria-pressed="false">Clients</button>
+      <button class="chip" data-t="Partenaire" aria-pressed="false">Partenaires</button>
+      <button class="chip" data-t="Ami" aria-pressed="false">Amis</button>
+      <button class="chip" data-t="Famille" aria-pressed="false">Famille</button>
+      <button class="chip" id="chip-legacy" data-t="Amis & famille" aria-pressed="false" hidden>À préciser</button>
+    </div>
+    <div class="list" id="glist"></div>
+  </section>
+
+  <section id="v-vendeur" class="view" hidden style="display:flex;flex-direction:column;gap:14px">
+    <div id="s-choose" style="display:flex;flex-direction:column;gap:10px">
+      <h2>Qui êtes-vous ?</h2>
+      <p class="hint">Choisissez votre nom. Cet appareil vous prévient dès qu'un de vos invités est coché à l'accueil.</p>
+      <div class="seller-pick" id="s-pick"></div>
+    </div>
+    <div id="s-main" hidden style="flex-direction:column;gap:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div><div class="eyebrow">Mes invités</div><h2 id="s-name"></h2></div>
+        <button class="btn ghost small" id="s-change">Changer</button>
+      </div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <span class="pill" id="snd"><i></i>Son désactivé</span>
+          <button class="btn" id="snd-on">Activer le son, écran allumé</button>
+        </div>
+        <p class="hint">Gardez cette page ouverte pour l'alerte plein écran. Pour être prévenu même téléphone verrouillé : installez l'app gratuite <b>ntfy</b> (sans compte), puis abonnez-vous au sujet ci-dessous.</p>
+        <div class="link" id="ntfy-topic"></div>
+        <div class="form-row"><button class="btn ghost small" id="ntfy-copy" style="flex:0 0 auto">Copier le sujet</button><a class="btn ghost small" id="ntfy-open" target="_blank" rel="noopener" style="flex:0 0 auto;text-decoration:none;text-align:center">Ouvrir dans ntfy</a></div>
+      </div>
+      <div><div class="eyebrow" style="margin-bottom:6px">Arrivés</div><div class="list" id="my-in"></div></div>
+      <div><div class="eyebrow" style="margin-bottom:6px">Pas encore arrivés</div><div class="list" id="my-wait"></div></div>
+    </div>
+  </section>
+
+  <section id="v-gestion" class="view" hidden style="display:flex;flex-direction:column;gap:14px">
+    <div class="panel">
+      <h2>Partager l'app</h2>
+      <p class="hint">Ce lien contient la clé de l'événement. Seules les personnes qui ont ce lien voient la liste. Envoyez-le aux hôtesses et aux vendeurs, sans compte à créer.</p>
+      <div class="link" id="share-link"></div>
+      <div class="form-row"><button class="btn small" id="copy-link" style="flex:0 0 auto">Copier le lien</button></div>
+      <div id="qr"></div>
+    </div>
+    <div class="panel">
+      <h2>Importer la liste</h2>
+      <p class="hint">Une ligne par invité : <b>Prénom Nom ; Vendeur ; Statut</b>. Statut : Client, Partenaire, Ami ou Famille. Cela remplace la liste actuelle (les arrivées déjà cochées sont gardées).</p>
+      <textarea class="field" id="bulk" placeholder="Marie Dupont ; Fernando ; Client&#10;Jean Martin ; Florent ; Famille"></textarea>
+      <div class="form-row"><button class="btn" id="bulk-go" style="flex:0 0 auto">Importer et publier</button><span class="hint" id="bulk-msg"></span></div>
+    </div>
+    <div class="panel">
+      <h2>Ajouter un invité</h2>
+      <form class="form-row" id="f-add">
+        <input class="field" id="a-name" placeholder="Prénom Nom" required>
+        <input class="field" id="a-seller" list="sellers-dl" placeholder="Vendeur" required>
+        <datalist id="sellers-dl"></datalist>
+        <select class="field" id="a-type" required><option value="">Statut…</option><option>Client</option><option>Partenaire</option><option>Ami</option><option>Famille</option></select>
+        <button class="btn" type="submit" style="flex:0 0 auto">Ajouter</button>
+      </form>
+    </div>
+    <div class="panel">
+      <h2>Invités (<span class="num" id="g-count">0</span>)</h2>
+      <div id="all"></div>
+      <div style="border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:10px">
+        <button class="btn ghost small" id="republish" style="align-self:flex-start">Republier la liste</button>
+        <p class="hint">À faire le jour J avant l'ouverture : les messages ne restent que 12 h sur le serveur de synchro, et un nouvel appareil récupère la liste depuis ces messages.</p>
+        <button class="danger" id="reset-ask">Remettre toutes les arrivées à zéro</button>
+        <div id="reset-c" hidden class="form-row"><span class="hint">Toutes les coches seront retirées. Confirmer ?</span><button class="btn small" id="reset-yes" style="background:var(--danger);flex:0 0 auto">Oui, tout décocher</button><button class="btn ghost small" id="reset-no" style="flex:0 0 auto">Annuler</button></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap" id="start" hidden>
+  <div class="hero">
+    <div class="eyebrow">Novoffice · 20 ans</div>
+    <h1>Accueil Invités</h1>
+    <p class="hint" style="font-size:1rem">Ouvrez le lien que l'organisateur vous a envoyé. Il contient la clé de l'événement.</p>
+    <button class="btn" id="create">Je suis l'organisateur : créer un événement</button>
+  </div>
+</div>
+
+<div id="alert" class="alert" hidden role="alertdialog" aria-live="assertive">
+  <div>Vient d'arriver à l'accueil</div><div class="big" id="alert-name"></div><div id="alert-more"></div>
+  <button id="alert-ok">J'y vais</button>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+const NTFY='https://ntfy.sh';
+const $=id=>document.getElementById(id);
+const te=new TextEncoder(),td=new TextDecoder();
+const CHECK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+const hhmm=ms=>new Date(ms).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'});
+function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2600)}
+const b64u=u8=>{let s='';u8.forEach(b=>s+=String.fromCharCode(b));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')};
+const unb64u=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';const b=atob(s);return Uint8Array.from(b,c=>c.charCodeAt(0))};
+const hex=buf=>[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+async function sha(s){return crypto.subtle.digest('SHA-256',te.encode(s))}
+
+let K=null,aes=null,topic='',STORE='',S=null;
+let filter='all',tfilter='',openUndo=null,mySeller=null,audioCtx=null,wakeLock=null;
+const alerted=new Set(),queue=[];let startedAt=Date.now();
+try{mySeller=localStorage.getItem('mySeller')}catch(e){}
+
+/* ---------- état ---------- */
+function load(){try{S=JSON.parse(localStorage.getItem(STORE))}catch(e){S=null}
+  S=S||{};S.list=S.list||{v:0,guests:[]};S.a=S.a||{};S.reset=S.reset||0;S.out=S.out||[];S.chunks=S.chunks||{}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(S))}catch(e){}}
+function arrivedAt(g){const a=S.a[g.id];return a&&a.in&&a.in>(a.out||0)&&a.in>S.reset?a.in:null}
+function isSeen(g){const a=S.a[g.id];return !!(a&&a.seen&&a.seen>=a.in)}
+function sellers(){return [...new Set(S.list.guests.map(g=>g.s))].sort((a,b)=>norm(a).localeCompare(norm(b)))}
+function normType(t){const x=norm(t);if(!x)return '';if(x.startsWith('client'))return 'Client';if(x.startsWith('partenaire')||x.startsWith('sponsor'))return 'Partenaire';if(/(^|[^a-z])ami/.test(x)&&x.includes('famil'))return 'Amis & famille';if(x.startsWith('ami'))return 'Ami';if(x.startsWith('famil'))return 'Famille';return ''}
+const tcls=t=>t==='Client'?'client':t==='Partenaire'?'partenaire':t==='Ami'?'ami':t==='Famille'?'famille':t?'autre':'';
+const tagHtml=t=>t?`<span class="tag ${tcls(t)}">${esc(t)}</span>`:'';
+function sortG(l){return [...l].sort((a,b)=>norm(a.n).localeCompare(norm(b.n)))}
+
+/* ---------- crypto + réseau ---------- */
+async function enc(o){const iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},aes,te.encode(JSON.stringify(o))));
+  const out=new Uint8Array(12+ct.length);out.set(iv);out.set(ct,12);return b64u(out)}
+async function dec(s){const u=unb64u(s);const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(0,12)},aes,u.slice(12));return JSON.parse(td.decode(pt))}
+async function sellerTopic(name){return 'nv'+hex(await sha('s|'+K+'|'+norm(name))).slice(0,22)}
+
+let flushing=false;
+async function flush(){if(flushing)return;flushing=true;
+  try{while(S.out.length){const item=S.out[0];
+    try{const r=await fetch(NTFY+'/'+topic,{method:'POST',body:item});if(!r.ok)throw new Error(r.status);S.out.shift();save();renderOutbox()}
+    catch(e){setTimeout(flush,5000);break}}}
+  finally{flushing=false}}
+async function publish(o){S.out.push(await enc(o));save();renderOutbox();flush()}
+function renderOutbox(){const el=$('outbox');el.hidden=!S.out.length;el.textContent=S.out.length?`${S.out.length} envoi(s) en attente`:''}
+
+function applyEvent(e){
+  if(e.k==='in'||e.k==='out'||e.k==='seen'){const a=S.a[e.g]=S.a[e.g]||{};a[e.k]=Math.max(a[e.k]||0,e.ts);
+    if(e.k==='in'&&e.ts>startedAt-60000&&e.ts>S.reset)maybeAlert(e.g,e.ts)}
+  else if(e.k==='reset'){S.reset=Math.max(S.reset,e.ts)}
+  else if(e.k==='list'){const c=S.chunks[e.v]=S.chunks[e.v]||{n:e.n,p:{}};c.p[e.i]=e.d;
+    if(Object.keys(c.p).length===c.n&&e.v>S.list.v){const gs=[];for(let i=0;i<c.n;i++)gs.push(...c.p[i]);
+      S.list={v:e.v,guests:gs};for(const v of Object.keys(S.chunks))if(+v<=e.v)delete S.chunks[v]}}
+}
+let es=null;
+function connect(){
+  if(es)es.close();
+  es=new EventSource(`${NTFY}/${topic}/sse?since=all`);
+  es.onopen=()=>{$('net').className='pill on';$('net').innerHTML='<i></i>Synchro en direct'};
+  es.onerror=()=>{$('net').className='pill off';$('net').innerHTML='<i></i>Hors ligne, reprise automatique'};
+  es.onmessage=async m=>{try{const d=JSON.parse(m.data);if(d.event!=='message')return;applyEvent(await dec(d.message));save();render()}catch(e){}};
+}
+
+/* ---------- alertes vendeur ---------- */
+function maybeAlert(gid,ts){
+  const g=S.list.guests.find(x=>x.id===gid);if(!g||g.s!==mySeller||alerted.has(gid+ts))return;
+  alerted.add(gid+ts);if(isSeen(g))return;queue.push(g);if(queue.length===1)showAlert();
+}
+function showAlert(){if(!queue.length){$('alert').hidden=true;return}
+  const g=queue[0];$('alert-name').textContent=g.n;$('alert-more').textContent=[g.t,queue.length>1?`${queue.length-1} autre(s) en attente`:''].filter(Boolean).join(' · ');
+  $('alert').hidden=false;chime();try{navigator.vibrate&&navigator.vibrate([300,120,300])}catch(e){}}
+$('alert-ok').onclick=async()=>{const g=queue.shift();showAlert();if(g)markSeen(g.id)};
+async function markSeen(id){const ts=Date.now();applyEvent({k:'seen',g:id,ts});save();render();publish({k:'seen',g:id,ts})}
+function chime(){if(!audioCtx)return;const t=audioCtx.currentTime;
+  [[880,0],[1320,.18],[880,.6],[1320,.78]].forEach(([f,d])=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;
+    g.gain.setValueAtTime(.0001,t+d);g.gain.exponentialRampToValueAtTime(.4,t+d+.02);g.gain.exponentialRampToValueAtTime(.0001,t+d+.35);o.connect(g).connect(audioCtx.destination);o.start(t+d);o.stop(t+d+.4)})}
+$('snd-on').onclick=async()=>{try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();await audioCtx.resume();chime()}catch(e){}
+  try{if('wakeLock'in navigator)wakeLock=await navigator.wakeLock.request('screen')}catch(e){}
+  $('snd').className='pill on';$('snd').innerHTML='<i></i>Alertes sonores actives';$('snd-on').hidden=true};
+document.addEventListener('visibilitychange',async()=>{if(document.visibilityState==='visible'&&wakeLock&&wakeLock.released){try{wakeLock=await navigator.wakeLock.request('screen')}catch(e){}}});
+
+/* ---------- actions ---------- */
+async function checkIn(g){const ts=Date.now();applyEvent({k:'in',g:g.id,ts});save();
+  toast(`${g.n} est arrivé·e. ${g.s} est prévenu·e`);$('q').value='';render();
+  publish({k:'in',g:g.id,ts});
+  try{fetch(NTFY,{method:'POST',body:JSON.stringify({topic:await sellerTopic(g.s),title:'Invité arrivé',message:`${g.n}${g.t?' ('+g.t+')':''} vient d'arriver à l'accueil (${hhmm(ts)})`,priority:4,tags:['bell']})}).catch(()=>{})}catch(e){}}
+async function undo(g){const ts=Date.now();applyEvent({k:'out',g:g.id,ts});save();render();publish({k:'out',g:g.id,ts});toast('Arrivée annulée')}
+async function publishList(guests){const v=Date.now();const per=30;const chunks=[];for(let i=0;i<guests.length;i+=per)chunks.push(guests.slice(i,i+per));
+  if(!chunks.length)chunks.push([]);
+  for(let i=0;i<chunks.length;i++)await publish({k:'list',v,i,n:chunks.length,d:chunks[i]});
+  S.list={v,guests};save();render()}
+function fnv(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
+function mkGuests(rows){const seen=new Map(),out=[];for(const [n,s,t] of rows){let id=fnv(norm(n)+'|'+norm(s));const c=seen.get(id)||0;seen.set(id,c+1);if(c)id+='_'+c;out.push({id,n,s,t:normType(t)})}return out}
+
+/* ---------- rendu ---------- */
+function render(){renderCounter();renderAccueil();renderVendeur();renderGestion()}
+function renderCounter(){const n=S.list.guests.filter(arrivedAt).length;$('counter').innerHTML=`<b>${n}</b> / ${S.list.guests.length} arrivés`}
+function renderAccueil(){
+  $('chip-legacy').hidden=!S.list.guests.some(g=>g.t==='Amis & famille');
+  const q=norm($('q').value);let l=S.list.guests.filter(g=>!q||norm(g.n).includes(q));
+  if(tfilter)l=l.filter(g=>g.t===tfilter);if(filter==='wait')l=l.filter(g=>!arrivedAt(g));if(filter==='in')l=l.filter(g=>arrivedAt(g));l=sortG(l);
+  const el=$('glist');
+  if(!S.list.guests.length){el.innerHTML='<div class="empty"><b>Aucun invité pour l\'instant</b><br>Importez la liste dans l\'onglet Gestion, ou attendez qu\'elle arrive.</div>';return}
+  if(!l.length){el.innerHTML='<div class="empty"><b>Personne ne correspond</b><br>Vérifiez l\'orthographe ou changez de filtre.</div>';return}
+  el.innerHTML=l.map(g=>{const at=arrivedAt(g);
+    const right=at?(openUndo===g.id?`<span class="undo" data-undo="${g.id}" role="button" tabindex="0">Annuler l'arrivée</span>`:`<span class="time num">${hhmm(at)}</span>`):'';
+    return `<button class="row ${at?'arrived':''}" data-id="${g.id}"><span class="box">${CHECK}</span><span><div class="name">${esc(g.n)}</div><div class="meta">${tagHtml(g.t)}Vendeur : ${esc(g.s)}</div></span>${right}</button>`}).join('')}
+$('glist').addEventListener('click',e=>{
+  const u=e.target.closest('[data-undo]');if(u){const g=S.list.guests.find(x=>x.id===u.dataset.undo);openUndo=null;if(g)undo(g);return}
+  const r=e.target.closest('.row');if(!r)return;const g=S.list.guests.find(x=>x.id===r.dataset.id);if(!g)return;
+  if(arrivedAt(g)){openUndo=openUndo===g.id?null:g.id;renderAccueil();return}checkIn(g)});
+$('q').oninput=()=>{openUndo=null;renderAccueil()};
+document.querySelectorAll('.chip[data-f]').forEach(c=>c.onclick=()=>{filter=c.dataset.f;document.querySelectorAll('.chip[data-f]').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));renderAccueil()});
+document.querySelectorAll('.chip[data-t]').forEach(c=>c.onclick=()=>{tfilter=c.dataset.t;document.querySelectorAll('.chip[data-t]').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));renderAccueil()});
+
+async function renderVendeur(){
+  const sl=sellers();const ok=sl.includes(mySeller);
+  $('s-choose').hidden=ok;$('s-main').hidden=!ok;if(ok)$('s-main').style.display='flex';
+  $('s-pick').innerHTML=sl.length?sl.map(s=>`<button data-s="${esc(s)}">${esc(s)}</button>`).join(''):'<p class="hint">Aucun vendeur pour l\'instant.</p>';
+  if(!ok)return;
+  $('s-name').textContent=mySeller;
+  const t=await sellerTopic(mySeller);$('ntfy-topic').textContent=t;$('ntfy-open').href=`https://ntfy.sh/${t}`;
+  const mine=S.list.guests.filter(g=>g.s===mySeller);
+  const inn=mine.filter(arrivedAt).sort((a,b)=>arrivedAt(b)-arrivedAt(a)),wait=sortG(mine.filter(g=>!arrivedAt(g)));
+  $('my-in').innerHTML=inn.length?inn.map(g=>`<div class="card ${isSeen(g)?'':'fresh'}"><div><div class="name">${esc(g.n)}</div><div class="meta num">${tagHtml(g.t)}Arrivé·e à ${hhmm(arrivedAt(g))}</div></div>${isSeen(g)?'<span class="hint">Pris en charge</span>':`<button class="btn small" data-seen="${g.id}">Je m'en occupe</button>`}</div>`).join(''):'<div class="empty">Aucun de vos invités n\'est encore arrivé.</div>';
+  $('my-wait').innerHTML=wait.length?wait.map(g=>`<div class="card"><div class="name" style="font-weight:600;font-family:var(--fb);font-size:1rem">${esc(g.n)} ${tagHtml(g.t)}</div></div>`).join(''):`<div class="empty">${mine.length?'Tous vos invités sont là.':'Aucun invité ne vous est attribué.'}</div>`;
+  const fresh=inn.filter(g=>!isSeen(g)).length;document.title=fresh?`(${fresh}) Accueil Invités`:'Accueil Invités · Novoffice 20 ans'}
+$('s-pick').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;mySeller=b.dataset.s;try{localStorage.setItem('mySeller',mySeller)}catch(x){}renderVendeur()};
+$('s-change').onclick=()=>{mySeller=null;try{localStorage.removeItem('mySeller')}catch(e){}renderVendeur()};
+$('my-in').onclick=e=>{const b=e.target.closest('[data-seen]');if(b)markSeen(b.dataset.seen)};
+$('ntfy-copy').onclick=()=>{const t=$('ntfy-topic').textContent;navigator.clipboard?.writeText(t).then(()=>toast('Sujet copié')).catch(()=>toast(t))};
+
+function renderGestion(){
+  $('g-count').textContent=S.list.guests.length;
+  $('sellers-dl').innerHTML=sellers().map(s=>`<option value="${esc(s)}">`).join('');
+  $('all').innerHTML=S.list.guests.length?sortG(S.list.guests).map(g=>`<div class="mini"><div style="min-width:0"><b>${esc(g.n)}</b> <span class="hint">· ${esc(g.t||'statut ?')} · ${esc(g.s)}${arrivedAt(g)?' · arrivé·e '+hhmm(arrivedAt(g)):''}</span></div><button class="x" aria-label="Supprimer ${esc(g.n)}" data-del="${g.id}">×</button></div>`).join(''):'<span class="hint">Aucun invité.</span>'}
+$('all').onclick=async e=>{const b=e.target.closest('[data-del]');if(!b)return;await publishList(S.list.guests.filter(g=>g.id!==b.dataset.del))};
+$('f-add').onsubmit=async e=>{e.preventDefault();const n=$('a-name').value.trim(),s=$('a-seller').value.trim(),t=$('a-type').value;if(!n||!s||!t)return;
+  await publishList([...S.list.guests,...mkGuests([[n,s,t]])]);$('a-type').value='';$('a-name').value='';toast('Invité ajouté')};
+$('bulk-go').onclick=async()=>{const rows=[];let bad=0;
+  for(const line of $('bulk').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean)){const p=line.split(/\s*[;\t]\s*/);if(p.length<2||!p[0]||!p[1]){bad++;continue}rows.push([p[0],p[1],p[2]||''])}
+  if(!rows.length){$('bulk-msg').textContent='Aucune ligne valide';return}
+  await publishList(mkGuests(rows));const nt=rows.filter(r=>!normType(r[2])).length;$('bulk-msg').textContent=`${rows.length} invité(s) importé(s)`+(bad?`, ${bad} ligne(s) ignorée(s)`:'')+(nt?`, ${nt} sans statut reconnu`:'');$('bulk').value=''};
+$('republish').onclick=async()=>{await publishList(S.list.guests);toast('Liste republiée')};
+$('reset-ask').onclick=()=>$('reset-c').hidden=false;$('reset-no').onclick=()=>$('reset-c').hidden=true;
+$('reset-yes').onclick=async()=>{$('reset-c').hidden=true;const ts=Date.now();applyEvent({k:'reset',ts});save();render();publish({k:'reset',ts});toast('Arrivées remises à zéro')};
+$('copy-link').onclick=()=>{navigator.clipboard?.writeText(location.href).then(()=>toast('Lien copié')).catch(()=>toast('Copiez le lien affiché'))};
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>showView(b.dataset.view));
+function showView(v){document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.view===v)));
+  document.querySelectorAll('.view').forEach(s=>s.hidden=s.id!=='v-'+v);try{localStorage.setItem('view',v)}catch(e){}}
+
+/* ---------- démarrage ---------- */
+async function boot(){
+  const m=location.hash.match(/k=([A-Za-z0-9_-]{16,})/);
+  if(!m){$('start').hidden=false;$('create').onclick=()=>{const k=b64u(crypto.getRandomValues(new Uint8Array(16)));location.hash='k='+k;location.reload()};return}
+  K=m[1];
+  aes=await crypto.subtle.importKey('raw',await sha('e|'+K),'AES-GCM',false,['encrypt','decrypt']);
+  topic='nv'+hex(await sha('t|'+K)).slice(0,24);STORE='nv:'+topic;load();
+  $('app').hidden=false;$('share-link').textContent=location.href;
+  try{const q=qrcode(0,'M');q.addData(location.href);q.make();$('qr').innerHTML=q.createSvgTag(5,0)}catch(e){}
+  try{const v=localStorage.getItem('view');if(v)showView(v)}catch(e){}
+  render();renderOutbox();flush();connect();
+  if('serviceWorker'in navigator){}
+}
+boot();
+</script>
+</body>
+</html>
